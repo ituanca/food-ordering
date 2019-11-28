@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void displayOrderInfo(char username[], char sorts[], double prices, char drink[], double drinkPrices, char addInfo[], int cutleryChoice)
+void displayOrderInfo(char username[], char ***sorts, double *prices, char **drink, double *drinkPrices, char addInfo[], int cutleryChoice)
 {
     printf("This is your order:\n");
     printf("-------------------\n");
@@ -22,7 +22,7 @@ void displayOrderInfo(char username[], char sorts[], double prices, char drink[]
         printf("yes \n");
     else
         printf("no \n");
-    printf("Payment amount: %.2f\n", prices + drinkPrices);
+    //printf("Payment amount: %.2f\n", prices + drinkPrices);
 }
 
 void confirmOrder(int *orderConfirmed, int *state)

@@ -9,9 +9,9 @@
 #ifndef FOOD_ORDERING_DISPLAYDATA_H
 #define FOOD_ORDERING_DISPLAYDATA_H
 
-void displayTypeOptions(int noOfTypesOfFood, char types[][MAX_TYPE_NAME]);
-void displaySortsOptions(int noSorts, char types[], char sorts[][MAX_SORT_NAME], double prices[]);
-void displayDrinksChoice(int noDrink, char drink[][MAX_DRINK_NAME], double drinkPrices[]);
+void displayTypeOptions(int noOfTypes, char **types);
+void displaySortsOptions(int *noOfSorts, char **types, char ***sorts, double prices[]);
+void displayDrinksChoice(int noOfDrinks, char **drinks, double *drinkPrice);
 
 
 #endif //FOOD_ORDERING_DISPLAYDATA_H
