@@ -16,9 +16,9 @@ void displayTypeOptions(int noOfTypes, char **types)
     printf("%c) Go back\n", 'a'+noOfTypes);
 }
 
-void displaySortsOptions(int *noOfSorts, char **types, char ***sorts, double *prices)
+void displaySortsOptions(int noOfSorts, char *types, char **sorts, double *prices)
 {
-    printf("Please choose the type of %s \n", types);
+    printf("Please choose the sort of %s \n", types);
     for (int i = 0; i < noOfSorts; i++) {
         putchar('a' + i);
         printf(") %s (%.2f)\n", sorts[i], prices[i]);
@@ -26,9 +26,9 @@ void displaySortsOptions(int *noOfSorts, char **types, char ***sorts, double *pr
     printf("%c) Go back\n", 'a' + noOfSorts);
 }
 
-void displayDrinksChoice(int noOfDrinks, char **drinks, double *drinkPrice)
+void displayDrinksChoice(int noOfDrinks, char **types, char **drinks, double *drinkPrice)
 {
-    printf("Please choose a drink to go with your Pizza:\n");
+    printf("Please choose a drink to go with your %s:\n", types);
     for(int i=0;i<noOfDrinks;i++){
         putchar('a'+i);
         printf(") %s (%.2f)\n", drinks[i], drinkPrice[i]);

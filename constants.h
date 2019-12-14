@@ -1,0 +1,13 @@
+//
+// Created by Anca on 11/29/2019.
+//
+
+#ifndef FOOD_ORDERING_CONSTANTS_H
+#define FOOD_ORDERING_CONSTANTS_H
+
+#define MAX_TYPE_NAME 50
+#define MAX_SORT_NAME 50
+#define MAX_DRINK_NAME 50
+#define MAX_CUTLERY_NAME 20
+
+#endif //FOOD_ORDERING_CONSTANTS_H
