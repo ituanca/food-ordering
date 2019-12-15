@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void displayOrderInfo(char username[], char sorts[], double prices, char drink[], double drinkPrices, char addInfo[], int cutleryChoice)
+void displayOrderInfo(char username[], char *sorts, double prices, char *drink, double drinkPrices, char addInfo[], int cutleryChoice)
 {
     printf("This is your order:\n");
     printf("-------------------\n");

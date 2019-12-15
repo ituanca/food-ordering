@@ -6,32 +6,32 @@
 #define MAX_SORT_NAME 17
 #define MAX_DRINK_NAME 20
 
-void displayTypeOptions(int noOfTypesOfFood, char types[][MAX_TYPE_NAME])
+void displayTypeOptions(int noOfTypes, char **types)
 {
     printf("Please choose the food you feel like eating today:\n");
-    for(int i=0;i<noOfTypesOfFood;i++){
+    for(int i=0;i<noOfTypes;i++){
         putchar('a'+i);
         printf(") %s\n",types[i]);
     }
-    printf("%c) Go back\n", 'a'+noOfTypesOfFood);
+    printf("%c) Go back\n", 'a'+noOfTypes);
 }
 
-void displaySortsOptions(int noSorts, char types[], char sorts[][MAX_SORT_NAME], double prices[])
+void displaySortsOptions(int noOfSorts, char *types, char **sorts, double *prices)
 {
-    printf("Please choose the type of %s \n", types);
-    for (int i = 0; i < noSorts; i++) {
+    printf("Please choose the sort of %s \n", types);
+    for (int i = 0; i < noOfSorts; i++) {
         putchar('a' + i);
         printf(") %s (%.2f)\n", sorts[i], prices[i]);
     }
-    printf("%c) Go back\n", 'a' + noSorts);
+    printf("%c) Go back\n", 'a' + noOfSorts);
 }
 
-void displayDrinksChoice(int noDrink, char drink[][MAX_DRINK_NAME], double drinkPrices[])
+void displayDrinksChoice(int noOfDrinks, char **types, char **drinks, double *drinkPrice)
 {
-    printf("Please choose a drink to go with your Pizza:\n");
-    for(int i=0;i<noDrink;i++){
+    printf("Please choose a drink to go with your %s:\n", types);
+    for(int i=0;i<noOfDrinks;i++){
         putchar('a'+i);
-        printf(") %s (%.2f)\n", drink[i], drinkPrices[i]);
+        printf(") %s (%.2f)\n", drinks[i], drinkPrice[i]);
     }
-    printf("%c) Go back\n", 'a' + noDrink);
+    printf("%c) Go back\n", 'a' + noOfDrinks);
 }
