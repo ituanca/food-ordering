@@ -6,6 +6,8 @@
 #define FOOD_ORDERING_MEMORYHANDLER_H
 #include "create.h"
 
-void freeData(char line, char lineDrinks, Type * types, int noOfTypes, Drink* drinks, int noOfDrinks);
+void freeLine(char* line);
+void freeTypes(Type * types);
+void freeDrinks(Drink* drinks);
 
 #endif //FOOD_ORDERING_MEMORYHANDLER_H

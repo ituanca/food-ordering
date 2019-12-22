@@ -11,12 +11,8 @@
 #define MAX_CUTLERY_NAME 20
 #define MAX_LINE_LENGTH 500
 #define MAX_LINE_DRINKS 100
-#define MAX_NUMBER_OF_SORTS 16
 #define MAX_USERNAME 30
 #define MAX_PASSWORD 30
-#define MAX_TYPE_NAME 20
-#define MAX_SORT_NAME 17
-#define MAX_DRINK_NAME 20
 #define LOAD_DATA "Please load the data"
 
 #endif //FOOD_ORDERING_CONSTANTS_H

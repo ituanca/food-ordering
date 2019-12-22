@@ -1,17 +1,10 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include "dataInput.h"
-#include "constants.h"
+#include "create.h"
+#include "displayData.h"
+#include "extra.h"
+#include "orderConfirmation.h"
 
-Customer createCustomer(){
-    Customer c;
-    c.username =(char*)malloc(MAX_USERNAME* sizeof(char));
-    c.password = (char*)malloc(MAX_PASSWORD* sizeof(char));
-    return c;
-}
-
-void inputPersonalData(Customer *c)
-{
+void inputPersonalData(Customer *c) {
     printf("Please sign in to continue! \n");
     printf("---Username:\n");
     gets(c->username);
@@ -19,8 +12,7 @@ void inputPersonalData(Customer *c)
     gets(c->password);
 }
 
-int getChoiceIndex(int noOfChoices, int *state)
-{
+int getChoiceIndex(int noOfChoices, int *state) {
     int choiceIndex;
     char choice = getchar();
     getchar();

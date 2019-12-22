@@ -15,7 +15,6 @@ void additionalInfo(char addInfo[])
 {
     printf("Any additional info? \n");
     gets(addInfo);
-    gets(addInfo);
 }
 
 //

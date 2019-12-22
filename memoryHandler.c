@@ -5,28 +5,28 @@
 #include "memoryHandler.h"
 #include <stdlib.h>
 
-void freeSort(Sort *sorts){
+void freeLine(char* line) {
+    free(line);
+}
+
+void freeSorts(Sort *sorts){
     free(sorts->name);
 }
 
-void freeTypes(char *line, Type * types, int noOfTypes){
-    for(int i=0;i<noOfTypes;i++){
+void freeTypes(Type * types) {
+    for(int i=0;i < sizeof(types);i++){
         for(int j=0; j<types[i].noOfSorts; j++){
-            freeSort(&(types[i].sorts[j]));
+            freeSorts(&(types[i].sorts[j]));
         }
-        free(line[i]);
         free(types[i].sorts);
         free(types[i].name);
     }
-    free(line);
     free(types);
 }
 
-void freeData(char line, char lineDrinks, Type * types, int noOfTypes, Drink* drinks, int noOfDrinks){
-    freeTypes(line, types, noOfTypes);
-    for (int i = 0; i < noOfDrinks; i++) {
+void freeDrinks(Drink* drinks) {
+    for (int i = 0; i < sizeof(drinks); i++) {
         free(drinks[i].name);
     }
-    free(lineDrinks);
     free(drinks);
 }
