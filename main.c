@@ -7,11 +7,10 @@
 #include "orderConfirmation.h"
 #include "constants.h"
 #define LOAD_DATA "Please load the data"
-#define MAX_LINE 50
-#define MAX_LINE_DRINKS 50
+
+void freeData(char line, char lineDrinks, Type * types, int noOfTypes, Drink* drinks, int noOfDrinks);
 
 int main() {
-
     printf("Welcome to Food Thingies!\n");
     FILE * foodDataFile;
     foodDataFile = fopen("D:\\Facultate\\food-ordering\\data.txt", "r");
@@ -19,98 +18,84 @@ int main() {
         printf("%s\n", LOAD_DATA);
         foodDataFile=stdin;
     }
-    int noOfCutlery=2;
-    int  state = 0, orderConfirmed = 0, typeChoice, sortChoice, drinkChoice, cutleryChoice;
-    char cutlery[][MAX_CUTLERY_NAME]={"Yes", "No,thanks!"};
-    char username[30], password[30], addInfo[30];
-    int noOfTypes;
-    int noOfDrinks;
-    char *ptr;
-    char **line;
-    char **types;
-    int *noOfSorts;
-    char ***sorts;
-    double **prices;
-    char *lineDrinks;
-    char **drinks;
-    double *drinkPrice;
-
-    char sep[] = "-()";
-    int isSort=1;
-    int isDrink=1;
+    int noOfCutlery=2, state = 0, orderConfirmed = 0, typeChoice, sortChoice, drinkChoice, cutleryChoice;
+    char cutlery[][MAX_CUTLERY_NAME]={"Yes", "No,thanks!"}, addInfo[30];
+    Customer c = createCustomer();
+    int noOfTypes, noOfDrinks, noOfSorts;
+    char *ptr, **line, *lineDrinks, *tempSortName;
+    char sep[] = "-(),";
+    int isSort, isDrink=1;
 
     fscanf(foodDataFile, "%d:", &noOfTypes);
     fgetc(foodDataFile);
 
     //food
     line = (char **) malloc(noOfTypes * sizeof(char *));
-    types = (char **) malloc(noOfTypes * sizeof(char *));
-    noOfSorts = (int *) malloc(noOfTypes * sizeof(int));
-    sorts = (char ***) malloc(noOfTypes * sizeof(char **));
-    prices = (double **) malloc(noOfTypes * sizeof(double *));
+    tempSortName = (char *) malloc(MAX_SORT_NAME * sizeof(char));
+
+    Type* types = (Type*) malloc (noOfTypes * sizeof(Type));
 
     for (int i = 0; i < noOfTypes; i++) {
-        line[i] = (char *) malloc(MAX_LINE * sizeof(char));
-        fgets(line[i],MAX_LINE,foodDataFile);
-        types[i] = (char *) malloc(MAX_TYPE_NAME * sizeof(char));
-        sorts[i] = (char**)malloc(noOfSorts[i]* sizeof(char*));
-        prices[i] = (double*)malloc(noOfSorts[i]* sizeof(double));
+        line[i] = (char *) malloc(MAX_LINE_LENGTH * sizeof(char));
+        fgets(line[i],MAX_LINE_LENGTH,foodDataFile);
 
+        //read type name
         ptr = strtok(line[i], " ");
-        strcpy(types[i], ptr);
-        ptr = strtok(NULL, ":");
-        noOfSorts[i] = atof(ptr);
-        int j = 0;
+        strcpy(tempSortName, ptr);
 
-        ptr = strtok(NULL,sep);
-        while(ptr!=NULL){
-            sorts[i][j] = (char*)malloc(MAX_SORT_NAME* sizeof(char));
-            if(strcmp(ptr," ")==0){
-                ptr=strtok(NULL,sep);
+        //read type sort numbers
+        ptr = strtok(NULL, ":");
+        noOfSorts = atoi(ptr);
+
+        //create the actual type
+        types[i] = createType(noOfSorts);
+        strcpy(types[i].name, tempSortName);
+        types[i].noOfSorts = noOfSorts;
+
+        //create sorts based on prev computed number
+        //for(int j = 0; j < types[i].noOfSorts; j++){
+            ptr = strtok(NULL,sep);
+            isSort = 1;
+            int j = 0;
+            while (ptr != NULL && j < types[i].noOfSorts)
+            {
+                if(strcmp(ptr," ") == 0)
+                {
+                    ptr=strtok(NULL, sep);
+                }
+                if(isSort == 1){
+                    strcpy(types[i].sorts[j].name, ptr);
+                    isSort=0;
+                }
+                else{
+                    types[i].sorts[j].price = atof(ptr + 1);
+                    isSort=1;
+                    j++;
+                }
+                ptr = strtok(NULL, sep);
             }
-            if(isSort==1){
-                strcpy(sorts[i][j],ptr);
-                isSort=0;
-            }
-            else{
-                prices[i][j] = atof(ptr+1);
-                j++;
-                isSort=1;
-            }
-            ptr = strtok(NULL, sep);
-        }
-    }
-    for(int i=0;i<noOfTypes;i++){
-        printf("%s\n",types[i]);
-        for(int j=0;j<noOfSorts[i];j++){
-            printf("%s\n",sorts[i][j]);
-            printf("%.2lf\n",prices[i][j]);
-        }
+        //}
     }
 
     //drinks
     fscanf(foodDataFile, "%d: ", &noOfDrinks);
     fgetc(foodDataFile);
     lineDrinks = (char *) malloc(MAX_LINE_DRINKS * sizeof(char));
-    drinks = (char **) malloc(noOfDrinks * sizeof(char *));
-    drinkPrice = (double *) malloc(noOfDrinks * sizeof(double));
+    Drink* drinks =  createDrinks(noOfDrinks);
     fgets(lineDrinks,MAX_LINE_DRINKS,foodDataFile);
     int i = 0;
 
     ptr = strtok(lineDrinks, sep);
-    while (ptr != NULL) {
-        drinks[i] = (char *) malloc(MAX_DRINK_NAME * sizeof(char));
+    while (ptr != NULL && i < noOfDrinks) {
         if(strcmp(ptr," ")==0){
             ptr=strtok(NULL,sep);
         }
         if (isDrink == 1) {
-            strcpy(drinks[i], ptr);
+            strcpy(drinks[i].name, ptr);
             isDrink = 0;
-            printf("%s\n", drinks[i]);
         } else {
-            drinkPrice[i] = atof(ptr+1);
+            drinks[i].price = atoi(ptr+1);
             isDrink = 1;
-            printf("%.2lf\n", drinkPrice[i]);
             i++;
         }
         ptr = strtok(NULL, sep);
@@ -119,7 +104,7 @@ int main() {
     while(!orderConfirmed) {
         switch (state) {
             case 0: {
-                inputPersonalData(username, password);
+                inputPersonalData(&c);
                 state++;
                 break;
             }
@@ -129,12 +114,12 @@ int main() {
                 break;
             }
             case 2: {
-                displaySortsOptions(noOfSorts[typeChoice], types[typeChoice], sorts[typeChoice], prices[typeChoice]);
-                sortChoice = getChoiceIndex(noOfSorts[typeChoice], &state);
+                displaySortsOptions(types[typeChoice]);
+                sortChoice = getChoiceIndex(types[typeChoice].noOfSorts, &state);
                 break;
             }
             case 3: {
-                displayDrinksChoice(noOfDrinks, types, drinks, drinkPrice);
+                displayDrinksChoice(noOfDrinks, types[typeChoice].name, drinks);
                 drinkChoice = getChoiceIndex(noOfDrinks, &state);
                 break;
             }
@@ -149,35 +134,43 @@ int main() {
                 break;
             }
             case 6: {
-                displayOrderInfo(username, sorts[typeChoice][sortChoice], prices[typeChoice][sortChoice],
-                                 drinks[drinkChoice], drinkPrice[drinkChoice], addInfo, cutleryChoice);
+                displayOrderInfo(&c, &(types[typeChoice].sorts[sortChoice]), &drinks[drinkChoice], addInfo, cutleryChoice);
                 confirmOrder(&orderConfirmed, &state);
                 break;
             }
         }
-}
-    //free memory
-    for(int i=0;i<noOfTypes;i++){
-        for(int j=0;j<noOfSorts[i]-1;j++){
-            free(sorts[i][j]);
-        }
-        free(line[i]);
-        free(types[i]);
-        free(drinks[i]);
-        free(prices[i]);
     }
-    free(types);
-    free(sorts);
-    free(line);
-    free(drinks);
-    free(prices);
-    free(noOfSorts);
-    free(lineDrinks);
-    free(drinkPrice);
+    //free memory
+    freeData(line, lineDrinks, types, noOfTypes, drinks, noOfDrinks);
     fclose(foodDataFile);
     return 0;
 }
 
+void freeSort(Sort *sorts){
+    free(sorts->name);
+}
+
+void freeTypes(char *line, Type * types, int noOfTypes){
+    for(int i=0;i<noOfTypes;i++){
+        for(int j=0; j<types[i].noOfSorts; j++){
+            freeSort(&(types[i].sorts[j]));
+        }
+        free(line[i]);
+        free(types[i].sorts);
+        free(types[i].name);
+    }
+    free(line);
+    free(types);
+}
+
+void freeData(char line, char lineDrinks, Type * types, int noOfTypes, Drink* drinks, int noOfDrinks){
+    freeTypes(line, types, noOfTypes);
+    for (int i = 0; i < noOfDrinks; i++) {
+        free(drinks[i].name);
+    }
+    free(lineDrinks);
+    free(drinks);
+}
 
 
 

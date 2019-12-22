@@ -6,9 +6,27 @@
 #ifndef FOOD_ORDERING_DISPLAYDATA_H
 #define FOOD_ORDERING_DISPLAYDATA_H
 
-void displayTypeOptions(int noOfTypes, char **types);
-void displaySortsOptions(int noOfSorts, char *types, char **sorts, double *prices);
-void displayDrinksChoice(int noOfDrinks, char **types, char **drinks, double *drinkPrice);
+typedef struct _sort{
+    char *name;
+    double price;
+}Sort;
+
+typedef struct _type{
+    char *name;
+    int noOfSorts;
+    Sort * sorts;
+}Type;
+
+typedef struct _drink{
+    char *name;
+    double price;
+}Drink;
+
+Type createType(int noOfSorts);
+Drink* createDrinks(int noOfDrinks);
+void displayTypeOptions(int noOfTypes, Type* types);
+void displaySortsOptions(Type type);
+void displayDrinksChoice(int noOfDrinks, char* types, Drink* drinks);
 
 
 #endif //FOOD_ORDERING_DISPLAYDATA_H
