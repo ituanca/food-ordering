@@ -1,16 +1,18 @@
 #include <stdio.h>
 #include <string.h>
+#include "dataInput.h"
+#include "displayData.h"
 
-void displayOrderInfo(char username[], char *sorts, double prices, char *drink, double drinkPrices, char addInfo[], int cutleryChoice)
+void displayOrderInfo(Customer * customer, Sort * sort, Drink * drink, char addInfo[], int cutleryChoice)
 {
     printf("This is your order:\n");
     printf("-------------------\n");
-    printf("Name: %s \n",username);
+    printf("Name: %s \n", customer -> username);
 
     printf("Food items: \n");
-    printf("---%s (%.2f)\n", sorts, prices);
-    if(drinkPrices != 0){
-        printf("---%s (%.2f)\n", drink, drinkPrices);
+    printf("---%s (%.2f)\n", sort -> name, sort -> price);
+    if(drink -> price != 0){
+        printf("---%s (%.2f)\n", drink -> name, drink -> price);
     }
     else{
         printf("---no drink \n");
@@ -22,7 +24,7 @@ void displayOrderInfo(char username[], char *sorts, double prices, char *drink, 
         printf("yes \n");
     else
         printf("no \n");
-    printf("Payment amount: %.2f\n", prices + drinkPrices);
+    printf("Payment amount: %.2f\n", sort -> price + drink -> price);
 }
 
 void confirmOrder(int *orderConfirmed, int *state)

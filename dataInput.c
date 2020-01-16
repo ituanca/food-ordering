@@ -1,16 +1,18 @@
 #include <stdio.h>
+#include "create.h"
+#include "displayData.h"
+#include "extra.h"
+#include "orderConfirmation.h"
 
-void inputPersonalData(char username[], char password[])
-{
+void inputPersonalData(Customer *c) {
     printf("Please sign in to continue! \n");
     printf("---Username:\n");
-    gets(username);
+    gets(c->username);
     printf("---Password:\n");
-    gets(password);
+    gets(c->password);
 }
 
-int getChoiceIndex(int noOfChoices, int *state)
-{
+int getChoiceIndex(int noOfChoices, int *state) {
     int choiceIndex;
     char choice = getchar();
     getchar();

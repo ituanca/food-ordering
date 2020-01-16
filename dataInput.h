@@ -5,7 +5,9 @@
 #ifndef FOOD_ORDERING_DATAINPUT_H
 #define FOOD_ORDERING_DATAINPUT_H
 
-void inputPersonalData(char username[], char password[]);
+#include "create.h"
+
+void inputPersonalData(Customer *c);
 int getChoiceIndex(int noOfChoices, int *state);
 
 #endif //FOOD_ORDERING_DATAINPUT_H
